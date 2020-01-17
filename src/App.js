@@ -9,23 +9,13 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
 import IconButton from '@material-ui/core/IconButton';
-import AddShoppingCartIcon from '@material-ui/core/IconButton';
-
-
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 140,
-  },
-});
+import Sidebar from './components/Sidebar'
 
 
 const App = () => {
-  const classes = useStyles();
+  const [purchasable, setPurchase] = React.useState([]);
+
   const [data, setData] = useState({});
   const products = Object.values(data);
   useEffect(() => {
@@ -37,45 +27,47 @@ const App = () => {
     fetchProducts();
   }, []);
 
+
+  
+
   return (
     <div>
     <Grid container>
       <Grid item sm={1}></Grid>
       <Grid item sm={10}>
-        <Grid container spacing="4" float="center" justify="center" alignItems ='center' maxWidth="100">
+        <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
           {products.map(product => 
-            <Grid item sm pt={40} pb={40}>
-              <Card>
-              <div style="width:100%; text-align:center">
-                <img src={"/products/".concat(product.sku+"_1.jpg")}alt ="help" />
-              </div>
+            <Grid item xs={3.5} alignItems="center" alignContent="center">
+              <Card alignItems="center" alignContent="center">
+                <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" />
                 <CardContent> 
-                <Typography key={product.sku} gutterBottom variant="h6" component="h6">
+                <Typography key={product.sku} gutterBottom variant="h6" component="h6" align="center">
                   {product.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary" component="p" align="center">
                   {"Description: ".concat(product.description)}
                 </Typography>
-                <Typography variant="body2" color="textPrimary" component="p">
+                <Typography variant="body2" color="textPrimary" component="p" align="center">
                   {"$ ".concat(product.price)}
                 </Typography>
-                <ButtonGroup size="small" aria-label="small outlined button group">
+                <div align="center">
+
+                
+                <ButtonGroup size="small" aria-label="small outlined button group" align="center">
                     <Button>S</Button>
                     <Button>M</Button>
                     <Button>L</Button>
                     <Button>XL</Button>
                   </ButtonGroup>
+                  </div>
                 </CardContent>
               </Card>
             </Grid>
           )}
-          
         </Grid>
       </Grid>
       <Grid item s={1} >
-        <IconButton color="primary" aria-label="add to shopping cart">
-          <Button>Cart</Button>      
-        </IconButton>
+        <Sidebar/>
       </Grid>
     </Grid>
     </div>
