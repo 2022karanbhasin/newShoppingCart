@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton';
 import Sidebar from './components/Sidebar'
+import GridCard from './components/GridCard'
 
 
 const App = () => {
@@ -37,32 +38,8 @@ const App = () => {
       <Grid item sm={10}>
         <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
           {products.map(product => 
-            <Grid item xs={3.5} alignItems="center" alignContent="center">
-              <Card alignItems="center" alignContent="center">
-                <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" />
-                <CardContent> 
-                <Typography key={product.sku} gutterBottom variant="h6" component="h6" align="center">
-                  {product.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" align="center">
-                  {"Description: ".concat(product.description)}
-                </Typography>
-                <Typography variant="body2" color="textPrimary" component="p" align="center">
-                  {"$ ".concat(product.price)}
-                </Typography>
-                <div align="center">
-
-                
-                <ButtonGroup size="small" aria-label="small outlined button group" align="center">
-                    <Button>S</Button>
-                    <Button>M</Button>
-                    <Button>L</Button>
-                    <Button>XL</Button>
-                  </ButtonGroup>
-                  </div>
-                </CardContent>
-              </Card>
-            </Grid>
+            <GridCard product={product}>
+            </GridCard> 
           )}
         </Grid>
       </Grid>
