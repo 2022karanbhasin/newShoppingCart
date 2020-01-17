@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 
 
-const GridCard = ({product}) => {
+const GridCard = ({product, AddItem}) => {
     return(
         <Grid item xs={3.5} alignItems="center" alignContent="center">
         <Card alignItems="center" alignContent="center">
@@ -31,11 +31,11 @@ const GridCard = ({product}) => {
           <div align="center">
 
           
-          <ButtonGroup size="small" aria-label="small outlined button group" align="center">
-              <Button>S</Button>
-              <Button>M</Button>
-              <Button>L</Button>
-              <Button>XL</Button>
+          <ButtonGroup product={product} size="small" aria-label="small outlined button group" align="center">
+              <Button onClick={() => AddItem("S", product)} >S</Button>
+              <Button onClick={() => AddItem("M", product)}>M</Button>
+              <Button onClick={() => AddItem("L", product)} >L</Button>
+              <Button onClick={() => AddItem("XL", product)}>XL</Button>
             </ButtonGroup>
             </div>
           </CardContent>

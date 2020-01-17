@@ -15,9 +15,9 @@ import GridCard from './components/GridCard'
 
 
 const App = () => {
-  const [purchasable, setPurchase] = React.useState([]);
-
   const [data, setData] = useState({});
+  const [cart, setCart] = useState([]);
+
   const products = Object.values(data);
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,6 +27,31 @@ const App = () => {
     };
     fetchProducts();
   }, []);
+
+  const AddItem = ({size, productt}) => {
+    let contents = cart;
+    console.log(contents);
+    console.log(productt)
+    let foundItem = false;
+    let i;
+    for (i = 0; i < cart.length; i++) {
+      if (contents[i].product === productt) {
+        foundItem = true;
+        break;
+      }
+    }
+    if (foundItem) {
+      contents[i].quantity += 1;
+    }
+    else {
+      contents.push({
+        product: productt,
+        size: size,
+        quantity: 1
+      })
+    }
+    setCart(contents);
+  }
 
 
   
@@ -38,7 +63,7 @@ const App = () => {
       <Grid item sm={10}>
         <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
           {products.map(product => 
-            <GridCard product={product}>
+            <GridCard product={product} AddItem={AddItem.bind(this)}>
             </GridCard> 
           )}
         </Grid>
