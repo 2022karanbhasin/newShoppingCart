@@ -8,7 +8,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import cartItem from './cartItem'
+import Grid from '@material-ui/core/Grid'
+import GridCardBought from './GridCardBought'
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import { CenterFocusStrong } from 'material-ui-icons';
+import Box from '@material-ui/core/Box';
+
+
+
+
+
 
 const useStyles = makeStyles({
   list: {
@@ -17,19 +27,21 @@ const useStyles = makeStyles({
   fullList: {
     width: 'auto',
   },
+  title: {
+    fontSize: 44,
+    textAlign: "center",
+  },
+
 });
 
-export default function Sidebar() {
+export default function Sidebar({state, setState, cartable}) {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    right: false,
-  });
-
-  const toggleDrawer = (side, open) => event => {
+  console.log(cartable)
+  
+  const toggleDrawer = (open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
     setState({ right: open });
   };
 
@@ -37,11 +49,26 @@ export default function Sidebar() {
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
+      onClick={toggleDrawer( false)}
+      onKeyDown={toggleDrawer(false)}
     >
+      <Card alignItems="center">
+        <Typography className={classes.title} color="textPrimary" variant="h5" component="h2">
+            Your Cart
+        </Typography>
+      </Card>
+
+
       <List>
-        <cartItem />
+       <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
+          <Grid item>
+            {cartable.map(cartItem => 
+            <GridCardBought cartItem={cartItem}>
+            </GridCardBought> 
+            
+          )}
+          </Grid>
+        </Grid>
       </List>
       <Divider />
      
@@ -49,14 +76,22 @@ export default function Sidebar() {
   );
 
   return (
-    <div>
-      <Button onClick={toggleDrawer('right', true)}>
-          Cart
-        </Button>
-      <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
-        <cartItem/>
-        {sideList('right')}
-      </Drawer>
+    <div style={{ width: '100%' }}>
+      
+        <Box display="flex" justifyContent="center" >
+          <Box mr={3}>
+            <Button  onClick={toggleDrawer(true)} variant="contained" size="large" color="primary">
+              Your Cart
+            </Button>
+          </Box>
+          
+        </Box>
+        
+          <Drawer anchor="right" open={state.right} onClose={toggleDrawer( false)}>
+            {sideList('right')}
+          </Drawer>
+       
+     
     </div>
   );
 }

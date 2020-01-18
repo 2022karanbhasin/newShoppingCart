@@ -12,11 +12,35 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton';
 import Sidebar from './components/Sidebar'
 import GridCard from './components/GridCard'
+import Box from '@material-ui/core/Box';
+import SimpleMenu from './components/Menu'
+
+
+const useStyles = makeStyles(theme => ({
+  header: {
+    fontSize: 44,
+    textAlign: "center",
+  },
+  media: {
+    height: 0,
+    paddingTop: '46.25%', // 16:9
+  },
+
+  selecter: {
+    float: "right",
+    potition: "relative",
+    right: 1000
+  }
+ 
+}));
 
 
 const App = () => {
   const [data, setData] = useState({});
   const [cart, setCart] = useState([]);
+  const [state, setState] = React.useState({
+    right: false,
+  });
 
   const products = Object.values(data);
   useEffect(() => {
@@ -28,14 +52,12 @@ const App = () => {
     fetchProducts();
   }, []);
 
-  const AddItem = ({size, productt}) => {
+  const AddItem = (size, productt) => {
     let contents = cart;
-    console.log(contents);
-    console.log(productt)
     let foundItem = false;
     let i;
     for (i = 0; i < cart.length; i++) {
-      if (contents[i].product === productt) {
+      if (contents[i].product === productt && size===contents[i].size ) {
         foundItem = true;
         break;
       }
@@ -51,25 +73,47 @@ const App = () => {
       })
     }
     setCart(contents);
+    setState({ right: true });
   }
 
 
-  
+  let classes = useStyles;
+
 
   return (
     <div>
     <Grid container>
       <Grid item sm={1}></Grid>
       <Grid item sm={10}>
-        <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
-          {products.map(product => 
-            <GridCard product={product} AddItem={AddItem.bind(this)}>
-            </GridCard> 
-          )}
-        </Grid>
+        <Box paddingTop={5} paddingBottom={5} flexDirection="row"  >
+          <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
+            <Grid item width="100%">
+              <Typography className={classes.header} color="textPrimary" variant="h2" component="h1" style={{textAlign: "center"}}>
+                  Your Very Own Shopping Experience!
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography  color="textPrimary" variant="h5" component="h3" > 
+                Order By 
+               </Typography> 
+                <SimpleMenu />
+            </Grid>
+
+          </Grid>
+          
+        </Box>
+          
+          <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
+            {products.map(product => 
+              <GridCard product={product} AddItem={AddItem.bind(this)}>
+              </GridCard> 
+            )}
+          </Grid>
       </Grid>
       <Grid item s={1} >
-        <Sidebar/>
+        <Box paddingTop={5} alignContent="center">
+          <Sidebar cartable={cart} state={state} setState={setState}/>
+        </Box>
       </Grid>
     </Grid>
     </div>
