@@ -19,7 +19,7 @@ const GridCard = ({product, AddItem}) => {
     return(
         <Grid item xs={3} alignItems="center" alignContent="center">
         <Card alignItems="center" alignContent="center">
-          <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" width="180" height="300" />
+          <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" width="200" height="300" />
           <CardContent> 
           <Typography key={product.sku} gutterBottom variant="h6" component="h6" align="center">
             {product.title}
