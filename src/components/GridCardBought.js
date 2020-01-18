@@ -43,6 +43,9 @@ const GridCardBought = ({cartItem}) => {
         <Typography variant="body2" color="textSecondary" component="p" align="center">
         {"Size: ".concat(cartItem.size)}
         </Typography>
+        <Typography variant="body2" color="textSecondary" component="p" align="center">
+        {"Quantity: ".concat(cartItem.quantity)}
+        </Typography>
         <Typography variant="body2" color="textPrimary" component="p" align="center">
         {"$ ".concat(product.price)}
         </Typography>
