@@ -17,9 +17,9 @@ const GridCard = ({product, AddItem}) => {
     let productt=product
     product.size="0"
     return(
-        <Grid item xs={3.5} alignItems="center" alignContent="center">
+        <Grid item xs={3} alignItems="center" alignContent="center">
         <Card alignItems="center" alignContent="center">
-          <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" />
+          <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" width="180" height="300" />
           <CardContent> 
           <Typography key={product.sku} gutterBottom variant="h6" component="h6" align="center">
             {product.title}
@@ -32,6 +32,8 @@ const GridCard = ({product, AddItem}) => {
           </Typography>
           <div align="center">
 
+          <div>
+
           
           <ButtonGroup size="small" aria-label="small outlined button group" align="center">
               <Button onClick={() => AddItem("S", productt)}>S</Button>
@@ -39,11 +41,14 @@ const GridCard = ({product, AddItem}) => {
               <Button onClick={() => AddItem("L", productt)} >L</Button>
               <Button onClick={() => AddItem("XL", productt)}>XL</Button>
             </ButtonGroup>
-            <Button color="primary" variant="container" onClick={() => AddItem("L", productt)} size="medium" aria-label="small outlined" align="center" >
+          </div>
+          <div style={{marginTop: 10}}>
+            <Button mr = {1} color="primary" variant="contained" onClick={() => AddItem("L", productt)} size="large" aria-label="small outlined" align="center" >
                Add to Cart
             </Button>
-        
             </div>
+          
+        </div>
             
           </CardContent>
         </Card>

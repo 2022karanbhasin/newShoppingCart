@@ -84,11 +84,11 @@ const App = () => {
     <div>
     <Grid container>
       <Grid item sm={1}></Grid>
-      <Grid item sm={10}>
+      <Grid item sm={9}>
         <Box paddingTop={5} paddingBottom={5} flexDirection="row"  >
           <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
             <Grid item width="100%">
-              <Typography className={classes.header} color="textPrimary" variant="h2" component="h1" style={{textAlign: "center"}}>
+              <Typography className={classes.header} color="textPrimary" variant="h3" component="h1" style={{textAlign: "center"}}>
                   Your Very Own Shopping Experience!
               </Typography>
             </Grid>

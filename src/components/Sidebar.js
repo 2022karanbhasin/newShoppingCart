@@ -63,8 +63,11 @@ export default function Sidebar({state, setState, cartable}) {
        <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
           <Grid item>
             {cartable.map(cartItem => 
-            <GridCardBought cartItem={cartItem}>
-            </GridCardBought> 
+            <div style={{marginTop: 10}} > 
+              <GridCardBought cartItem={cartItem}>
+             </GridCardBought>
+            </div>
+             
             
           )}
           </Grid>
@@ -77,15 +80,18 @@ export default function Sidebar({state, setState, cartable}) {
 
   return (
     <div style={{ width: '100%' }}>
-      
-        <Box display="flex" justifyContent="center" >
-          <Box mr={3}>
-            <Button  onClick={toggleDrawer(true)} variant="contained" size="large" color="primary">
-              Your Cart
-            </Button>
+        <div style={{ marginTop: 31, marginLeft: 80}}>
+
+        
+          <Box display="flex" justifyContent="center" >
+            <Box mr={3}>
+              <Button  onClick={toggleDrawer(true)} variant="contained" size="large" color="primary">
+                Your Cart
+              </Button>
+            </Box>
+            
           </Box>
-          
-        </Box>
+        </div>
         
           <Drawer anchor="right" open={state.right} onClose={toggleDrawer( false)}>
             {sideList('right')}
