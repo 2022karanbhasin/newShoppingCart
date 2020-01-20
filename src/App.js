@@ -62,6 +62,8 @@ const App = () => {
         break;
       }
     }
+    console.log(foundItem)
+    console.log(i)
     if (foundItem) {
       contents[i].quantity += 1;
     }
@@ -70,11 +72,54 @@ const App = () => {
         product: productt,
         size: size,
         quantity: 1
+        
       })
+      setState({ right: true });
     }
     setCart(contents);
-    setState({ right: true });
+    
+    
   }
+
+  const DecreaseItem = (size, productt) => {
+    let contents = cart;
+    let foundItem = false;
+    let i;
+    let value=0
+    for (i = 0; i < cart.length; i++) {
+      if (contents[i].product === productt && size===contents[i].size ) {
+        foundItem = true;
+        break;
+      }
+      value++
+    }
+    if (foundItem & contents[value].quantity!==1) {
+      contents[i].quantity -= 1;
+      
+    }
+    else {
+      RemoveItem(productt.size,contents.product)
+    }
+    setCart(contents);
+    
+  }
+  const RemoveItem = (size, productt) => {
+    let contents = cart;
+    let i;
+
+    for (i = 0; i < cart.length; i++) {
+      if (contents[i].product === productt && size===contents[i].size ) {
+        break;
+      }
+    }
+   
+    contents.splice(i-1,1)
+    setCart(contents);
+    setState({right: false})
+    
+  }
+   
+
 
 
   let classes = useStyles;
@@ -112,7 +157,7 @@ const App = () => {
       </Grid>
       <Grid item s={1} >
         <Box paddingTop={5} alignContent="center">
-          <Sidebar cartable={cart} state={state} setState={setState}/>
+          <Sidebar cartable={cart} state={state} setState={setState} AddItem={AddItem} RemoveItem={RemoveItem} DecreaseItem={DecreaseItem}/>
         </Box>
       </Grid>
     </Grid>

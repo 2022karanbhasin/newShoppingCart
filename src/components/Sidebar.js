@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 
 });
 
-export default function Sidebar({state, setState, cartable}) {
+export default function Sidebar({state, setState, cartable, AddItem, DecreaseItem, RemoveItem}) {
   const classes = useStyles();
   console.log(cartable)
   
@@ -49,8 +49,8 @@ export default function Sidebar({state, setState, cartable}) {
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer( false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={toggleDrawer(true)}
+      onKeyDown={toggleDrawer(true)}
     >
       <Card alignItems="center">
         <Typography className={classes.title} color="textPrimary" variant="h5" component="h2">
@@ -64,7 +64,7 @@ export default function Sidebar({state, setState, cartable}) {
           <Grid item>
             {cartable.map(cartItem => 
             <div style={{marginTop: 10}} > 
-              <GridCardBought cartItem={cartItem}>
+              <GridCardBought cartItem={cartItem} AddItem={AddItem} DecreaseItem={DecreaseItem} RemoveItem={RemoveItem}>
              </GridCardBought>
             </div>
              
@@ -93,7 +93,7 @@ export default function Sidebar({state, setState, cartable}) {
           </Box>
         </div>
         
-          <Drawer anchor="right" open={state.right} onClose={toggleDrawer( false)}>
+          <Drawer anchor="right" open={state.right} onClose={toggleDrawer(false)}>
             {sideList('right')}
           </Drawer>
        
