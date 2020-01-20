@@ -14,6 +14,9 @@ import Sidebar from './components/Sidebar'
 import GridCard from './components/GridCard'
 import Box from '@material-ui/core/Box';
 import SimpleMenu from './components/Menu'
+import firebase from 'firebase/app';
+import 'firebase/database';
+import "firebase/auth";
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +36,19 @@ const useStyles = makeStyles(theme => ({
   }
  
 }));
-
+var firebaseConfig = {
+      apiKey: "AIzaSyBib1C7fQyGgWHco15BraR2CY7sAqwbpDs",
+      authDomain: "shoppingcartreact.firebaseapp.com",
+      databaseURL: "https://shoppingcartreact.firebaseio.com",
+      projectId: "shoppingcartreact",
+      storageBucket: "shoppingcartreact.appspot.com",
+      messagingSenderId: "1008845348558",
+      appId: "1:1008845348558:web:f97bd0e25586722f77ba9f",
+      measurementId: "G-VNX74ECB3Y"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database().ref();
 
 const App = () => {
   const [data, setData] = useState({});
@@ -43,23 +58,31 @@ const App = () => {
     right: false,
   });
   
+ 
+
 
 
   const products = Object.values(data);
   useEffect(() => {
-    const fetchProducts = async () => {
+
+
+
+    const handleData = async snap => {
+      console.log(snap)
+      console.log("above is snap value")
+      if (snap.val()) setInventory(snap.val());
       const response = await fetch('./data/products.json');
       const json = await response.json();
       setData(json);
-      const responsee = await fetch('./data/inventory.json');
-      
-      const jsonn = await responsee.json();
-      setInventory(jsonn);
-
-
-    };
-    fetchProducts();
+    }
+    db.on('value', handleData, error => alert(error));
+    return () => { db.off('value', handleData); };
   }, []);
+
+
+
+
+    
   
 
   const AddItem = (size, productt) => {

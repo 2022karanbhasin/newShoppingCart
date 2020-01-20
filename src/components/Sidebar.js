@@ -48,8 +48,8 @@ export default function Sidebar({state, setState, cartable, AddItem, DecreaseIte
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(true)}
-      onKeyDown={toggleDrawer(true)}
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
       <Card alignItems="center">
         <Typography className={classes.title} color="textPrimary" variant="h5" component="h2">
