@@ -12,7 +12,6 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton';
 
 
-
 const GridCard = ({product, AddItem, availableSizes}) => {
     let productt=product
     product.size="0"

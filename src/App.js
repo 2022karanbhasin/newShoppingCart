@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton';
 import Sidebar from './components/Sidebar'
@@ -17,6 +18,8 @@ import SimpleMenu from './components/Menu'
 import firebase from 'firebase/app';
 import 'firebase/database';
 import "firebase/auth";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,26 +53,56 @@ var firebaseConfig = {
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database().ref();
 
+  const Banner = ({ user }) => (
+    <React.Fragment>
+      { user ? <Welcome user={ user } /> : <SignIn /> }
+    </React.Fragment>
+  );
+
+  const uiConfig = {
+    signInFlow: 'popup',
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccessWithAuthResult: () => false
+    }
+  };
+ 
+
+  const SignIn = () => (
+    <StyledFirebaseAuth
+      uiConfig={uiConfig}
+      firebaseAuth={firebase.auth()}
+    />
+  );
+  const Welcome = ({ user }) => (
+    <Box  marginTop={1} height={40} width="100%" textAlign="center" alignContent="center">
+  
+        Welcome, {user.displayName}
+  
+      <Box marginTop={1}>
+          <Button color="primary" variant="contained" size="small " aria-label="small outlined" align="center" onClick={() => firebase.auth().signOut()}>
+              Log out
+          </Button>
+      </Box>
+    </Box>
+  );
+
 const App = () => {
+  const [user, setUser] = useState(null);
   const [data, setData] = useState({});
   const [cart, setCart] = useState([]);
   const [inventory, setInventory] = useState({})
   const [state, setState] = React.useState({
     right: false,
   });
-  
- 
-
 
 
   const products = Object.values(data);
   useEffect(() => {
 
-
-
     const handleData = async snap => {
-      console.log(snap)
-      console.log("above is snap value")
       if (snap.val()) setInventory(snap.val());
       const response = await fetch('./data/products.json');
       const json = await response.json();
@@ -79,12 +112,10 @@ const App = () => {
     return () => { db.off('value', handleData); };
   }, []);
 
-
-
-
-    
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(setUser);
+  }, []);
   
-
   const AddItem = (size, productt) => {
     let contents = cart;
     let foundItem = false;
@@ -107,18 +138,15 @@ const App = () => {
           product: productt,
           size: size,
           quantity: 1
-          
         })
-        setState({ right: true });
+        
         inventorie[productt.sku][size]-=1
         setInventory(inventorie)
       }
   }
+    setState({ right: true });
     setCart(contents);
-    
-    
-    
-    
+
   }
   const returnSizes = (product) => {
     let inventorie=inventory[product.sku]
@@ -190,15 +218,17 @@ const App = () => {
   }
   
   let classes = useStyles;
-  
 
 
   return (
     <div>
     <Grid container>
-      <Grid item sm={1}></Grid>
+      <Grid item sm={1}>
+        
+      </Grid>
       <Grid item sm={9}>
-        <Box paddingTop={5} paddingBottom={5} flexDirection="row"  >
+      <Banner user={ user } />
+        <Box paddingTop={1} paddingBottom={5} flexDirection="row"  >
           <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
             <Grid item width="100%">
               <Typography className={classes.header} color="textPrimary" variant="h3" component="h1" style={{textAlign: "center"}}>
@@ -223,8 +253,8 @@ const App = () => {
             )}
           </Grid>
       </Grid>
-      <Grid item s={1} >
-        <Box paddingTop={5} alignContent="center">
+      <Grid item s={2} >
+        <Box paddingTop={0} alignContent="center">
           <Sidebar cartable={cart} state={state} setState={setState} AddItem={AddItem} RemoveItem={RemoveItem} DecreaseItem={DecreaseItem}/>
         </Box>
       </Grid>

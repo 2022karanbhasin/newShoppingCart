@@ -49,7 +49,7 @@ export default function Sidebar({state, setState, cartable, AddItem, DecreaseIte
       className={classes.list}
       role="presentation"
       onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(true)}
     >
       <Card alignItems="center">
         <Typography className={classes.title} color="textPrimary" variant="h5" component="h2">
@@ -79,7 +79,7 @@ export default function Sidebar({state, setState, cartable, AddItem, DecreaseIte
 
   return (
     <div style={{ width: '100%' }}>
-        <div style={{ marginTop: 31, marginLeft: 80}}>
+        <div style={{ marginTop: 85, marginLeft: 80}}>
 
         
           <Box display="flex" justifyContent="center" >
