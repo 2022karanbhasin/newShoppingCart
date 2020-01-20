@@ -36,7 +36,6 @@ const useStyles = makeStyles({
 
 export default function Sidebar({state, setState, cartable, AddItem, DecreaseItem, RemoveItem}) {
   const classes = useStyles();
-  console.log(cartable)
   
   const toggleDrawer = (open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

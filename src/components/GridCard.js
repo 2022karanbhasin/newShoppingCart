@@ -13,9 +13,10 @@ import IconButton from '@material-ui/core/IconButton';
 
 
 
-const GridCard = ({product, AddItem}) => {
+const GridCard = ({product, AddItem, availableSizes}) => {
     let productt=product
     product.size="0"
+    let determinedbutton=determineButton(productt,AddItem,availableSizes)
     return(
         <Grid item xs={3} alignItems="center" alignContent="center">
         <Card alignItems="center" alignContent="center">
@@ -36,17 +37,13 @@ const GridCard = ({product, AddItem}) => {
 
           
           <ButtonGroup size="small" aria-label="small outlined button group" align="center">
-              <Button onClick={() => AddItem("S", productt)}>S</Button>
-              <Button onClick={() => AddItem("M", productt)}>M</Button>
-              <Button onClick={() => AddItem("L", productt)} >L</Button>
-              <Button onClick={() => AddItem("XL", productt)}>XL</Button>
+              {availableSizes.map(size =>
+                <Button onClick={() => AddItem(size, productt)}>{size}</Button>
+              )}
             </ButtonGroup>
           </div>
-          <div style={{marginTop: 10}}>
-            <Button mr = {1} color="primary" variant="contained" onClick={() => AddItem("L", productt)} size="large" aria-label="small outlined" align="center" >
-               Add to Cart
-            </Button>
-            </div>
+          
+          {determinedbutton}
           
         </div>
             
@@ -56,6 +53,27 @@ const GridCard = ({product, AddItem}) => {
 
     );
     
+}
+const determineButton = (productt,AddItem,availableSizes) => {
+  if (availableSizes.length!==0){
+    
+    return(
+    <div style={{marginTop: 10}}>
+      <Button mr = {1} color="primary" variant="contained" onClick={() => AddItem("L", productt)} size="large" aria-label="small outlined" align="center" >
+         Add to Cart
+      </Button>
+    </div>)
+
+  }
+  else{
+    console.log("debugging")
+    return(
+      <div style={{marginTop: 10}}>
+        <Button mr = {1} color="primary" variant="contained" size="large" aria-label="small outlined" align="center" >
+           Out of Stock
+        </Button>
+      </div>)
+  }
 }
 
 export default GridCard;

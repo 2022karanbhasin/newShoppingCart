@@ -38,9 +38,12 @@ const useStyles = makeStyles(theme => ({
 const App = () => {
   const [data, setData] = useState({});
   const [cart, setCart] = useState([]);
+  const [inventory, setInventory] = useState({})
   const [state, setState] = React.useState({
     right: false,
   });
+  
+
 
   const products = Object.values(data);
   useEffect(() => {
@@ -48,9 +51,16 @@ const App = () => {
       const response = await fetch('./data/products.json');
       const json = await response.json();
       setData(json);
+      const responsee = await fetch('./data/inventory.json');
+      
+      const jsonn = await responsee.json();
+      setInventory(jsonn);
+
+
     };
     fetchProducts();
   }, []);
+  
 
   const AddItem = (size, productt) => {
     let contents = cart;
@@ -62,23 +72,47 @@ const App = () => {
         break;
       }
     }
-    console.log(foundItem)
-    console.log(i)
-    if (foundItem) {
+    let inventorie=inventory;
+    if (foundItem && inventory[productt.sku][size]!==0) {
       contents[i].quantity += 1;
+      inventorie[productt.sku][size]-=1
+      setInventory(inventorie)
     }
     else {
-      contents.push({
-        product: productt,
-        size: size,
-        quantity: 1
-        
-      })
-      setState({ right: true });
-    }
+        if(inventory[productt.sku][size]!==0){
+        contents.push({
+          product: productt,
+          size: size,
+          quantity: 1
+          
+        })
+        setState({ right: true });
+        inventorie[productt.sku][size]-=1
+        setInventory(inventorie)
+      }
+  }
     setCart(contents);
     
     
+    
+    
+  }
+  const returnSizes = (product) => {
+    let inventorie=inventory[product.sku]
+    let returnable=[]
+    if (inventorie && inventorie["S"]!==0) {
+      returnable.push("S")
+    }
+    if (inventorie && inventorie["M"]!==0) {
+      returnable.push("M")
+    }
+    if (inventorie && inventorie["L"]!==0) {
+      returnable.push("L")
+    }
+    if (inventorie && inventorie["XL"]!==0) {
+      returnable.push("XL")
+    }
+    return returnable
   }
 
   const DecreaseItem = (size, productt) => {
@@ -95,12 +129,19 @@ const App = () => {
     }
     if (foundItem & contents[value].quantity!==1) {
       contents[i].quantity -= 1;
+      let inventorie=inventory;
+      console.log("this is productt")
+      console.log(productt)
+
+      inventorie[productt.sku][size]+=1
+      setInventory(inventorie)
       
     }
     else {
-      RemoveItem(productt.size,contents.product)
+      RemoveItem(contents[i].size,contents[i].product)
     }
     setCart(contents);
+    
     
   }
   const RemoveItem = (size, productt) => {
@@ -113,16 +154,20 @@ const App = () => {
       }
     }
    
+    
+    
+    console.log("this is i")
+    console.log(i)
+    let inventorie=inventory;
+    inventorie[productt.sku][size]+=contents[i].quantity
+    setInventory(inventorie)
+    setState({right: false})
     contents.splice(i-1,1)
     setCart(contents);
-    setState({right: false})
-    
   }
-   
-
-
-
+  
   let classes = useStyles;
+  
 
 
   return (
@@ -150,7 +195,7 @@ const App = () => {
           
           <Grid container spacing="10" float="center" justify="center" alignItems ='center'>
             {products.map(product => 
-              <GridCard product={product} AddItem={AddItem.bind(this)}>
+              <GridCard product={product} AddItem={AddItem.bind(this)} availableSizes={returnSizes(product)}>
               </GridCard> 
             )}
           </Grid>
