@@ -32,15 +32,16 @@ const GridCardBought = ({cartItem, DecreaseItem, AddItem, RemoveItem}) => {
     return(
         <Paper xs={3.5} alignItems="center" alignContent="center">
         
-        <Card alignItems="center" alignContent="center">
-        <Grid container alignItems="center" alignContent="center">
-          <Grid item>
+        <Card alignItems="" alignContent="center">
+        <Grid container>
+          <Grid item xs={5}>
            
-            <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" width="110" height="170" />
+            <img src={"/products/".concat(product.sku+"_1.jpg")} alt ="help" width="100" height="160" />
             
               
           </Grid>
-      <Box width="70%">
+          <Grid item xs={6}>
+      <Box width="90%">
         
 
           
@@ -48,7 +49,7 @@ const GridCardBought = ({cartItem, DecreaseItem, AddItem, RemoveItem}) => {
 
           
           <CardContent> 
-              <Typography key={product.sku} gutterBottom variant="h6" component="h6" align="center">
+              <Typography key={product.sku} gutterBottom variant="body1" align="center">
                 {product.title}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p" align="center">
@@ -70,6 +71,7 @@ const GridCardBought = ({cartItem, DecreaseItem, AddItem, RemoveItem}) => {
           </div>
         
         </Box>
+      </Grid>
         </Grid>
   
         

@@ -63,7 +63,7 @@ export default function Sidebar({state, setState, cartable, AddItem, DecreaseIte
           <Grid item>
             {cartable.map(cartItem => 
             <div style={{marginTop: 10}} > 
-              <GridCardBought cartItem={cartItem} AddItem={AddItem} DecreaseItem={DecreaseItem} RemoveItem={RemoveItem}>
+              <GridCardBought key={cartItem.product.sku} cartItem={cartItem} AddItem={AddItem} DecreaseItem={DecreaseItem} RemoveItem={RemoveItem}>
              </GridCardBought>
             </div>
              
